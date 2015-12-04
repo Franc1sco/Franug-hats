@@ -310,11 +310,8 @@ public void OnMapStart()
 	{
 		if(!StrEqual(g_eHats[i][szModel], "none") && strcmp(g_eHats[i][szModel], "")!=0)
 		{	
-			if(FileExists(g_eHats[i][szModel]) || FileExists(g_eHats[i][szModel], true))
-			{
-				PrecacheModel(g_eHats[i][szModel], true);
-				Downloader_AddFileToDownloadsTable(g_eHats[i][szModel]);
-			}
+			PrecacheModel(g_eHats[i][szModel], true);
+			Downloader_AddFileToDownloadsTable(g_eHats[i][szModel]);
 		}
 	}
 }
