@@ -31,7 +31,7 @@ char sConfig[PLATFORM_MAX_PATH];
 
 Handle c_GameSprays, kv, hSetModel, mp_forcecamera; 
 
-Handle menu_hats, menu_editor;
+Menu menu_hats, menu_editor;
 
 // ConVars
 Handle g_hThirdPerson = INVALID_HANDLE;
@@ -310,15 +310,8 @@ public void OnMapStart()
 	{
 		if(!StrEqual(g_eHats[i][szModel], "none") && strcmp(g_eHats[i][szModel], "")!=0)
 		{	
-			if(FileExists(g_eHats[i][szModel]))
-			{
-				PrecacheModel(g_eHats[i][szModel], true);
-				Downloader_AddFileToDownloadsTable(g_eHats[i][szModel]);
-			}
-			else FileExists(g_eHats[i][szModel], true)
-			{
-				PrecacheModel(g_eHats[i][szModel], true);
-			}
+			PrecacheModel(g_eHats[i][szModel], true);
+			Downloader_AddFileToDownloadsTable(g_eHats[i][szModel]);
 		}
 	}
 }
