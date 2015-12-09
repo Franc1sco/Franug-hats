@@ -4,36 +4,43 @@
 	{
 		"en"	"{default}You don't have access to choose this hat."
 		"es"	"{default}Tu no tienes acceso para este hat."
+		"ru"	"{default}У вас нет доступа для выбора этой шапки."
 	}
 	"FirstChoose"
 	{
 		"en"	"{default}First choose a hat."
 		"es"	"{default}Primero elige un hat."
+		"ru"	"{default}Сначала выберите шапку."		
 	}	
 	"Chosen"
 	{
 		"#format"	"{1:s}"
 		"en"	"{default}You have chosen {lightgreen}{1}{default}."
 		"es"	"{default}Tu has elegido {lightgreen}{1}{default}."
+		"ru"	"{default}Вы выбрали {lightgreen}{1}{default}."		
 	}	
 	"ConfigReloaded"
 	{
 		"en"	"{default}Hats configuration reloaded."
 		"es"	"{default}Configuracion de los hats recargada."
+		"ru"	"{default}Конфигурация Шапок обновлена."		
 	}	
 	"ConfigSaved"
 	{
 		"en"	"{default}Configuration saved."
 		"es"	"{default}Configuracion guardada."
+		"ru"	"{default}Конфигурация сохранена."		
 	}	
 	"HatsMenu"
 	{
 		"en"	"Choose Hat"
 		"es"	"Selecciona un Hat"
+		"ru"	"Выберите Шапку"		
 	}
 	"EditorMenu"
 	{
 		"en"	"Hats Editor"
 		"es"	"Editor de Hats"
+		"ru"	"Редактор Шапок"		
 	}
 }
