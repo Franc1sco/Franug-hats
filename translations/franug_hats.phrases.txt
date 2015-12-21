@@ -7,6 +7,7 @@
 		"ru"	"{default}У вас нет доступа для выбора этой шапки."
 		"tr"	"{default}Bu şapkaya erişiminiz yok."
 		"pl"	"{default}Nie masz dostepu do tej czapki."
+		"zho"	"{default}你沒有選擇這個裝飾品的權限."
 	}
 	"FirstChoose"
 	{
@@ -15,6 +16,7 @@
 		"ru"	"{default}Сначала выберите шапку."	
 		"tr"	"{default}İlk once şapka seçiniz."	
 		"pl"	"{default}Najpierw wybierz czapke."
+		"zho"	"{default}你必須先選擇一個裝飾品."
 	}	
 	"Chosen"
 	{
@@ -24,6 +26,7 @@
 		"ru"	"{default}Вы выбрали {lightgreen}{1}{default}."
         	"tr"	"{default}Şu şapkayi seçtiniz {lightgreen}{1}{default}."
 		"pl"	"{default}Wybrales {lightgreen}{1}{default}. "
+		"zho"	"{default}你選擇了 {lightgreen}{1}{default}."
 	}	
 	"ConfigReloaded"
 	{
@@ -32,6 +35,7 @@
 		"ru"	"{default}Конфигурация Шапок обновлена."	
         	"tr"	"{default}Şapka yapılandırması yenilendi."
 		"pl"	"{default}Konfiguracja czapek zaktualizowana."
+		"zho"	"{default}已重新讀取設定."
 	}	
 	"ConfigSaved"
 	{
@@ -40,6 +44,7 @@
 		"ru"	"{default}Конфигурация сохранена."		
 		"tr"	"{default}Şapka yapılandırması kayedildi."
 		"pl"	"{default}Konfiguracja zapisana."
+		"zho"	"{default}設定已保存."
 	}	
 	"HatsMenu"
 	{
@@ -48,6 +53,7 @@
 		"ru"	"Выберите Шапку"
         	"tr"	"Şapka seçiniz"
 		"pl"	"Wybierz akcesorium."
+		"zho"	"選擇裝飾品"
 	}
 	"EditorMenu"
 	{
@@ -56,15 +62,18 @@
 		"ru"	"Редактор Шапок"
 		"tr" 	"Şapka editörü"
 		"pl"	"Edytor akcesorii"
+		"zho"	"裝飾品編輯器"
 	}
 	"Edit default hat position"
 	{
 		"en"	"Edit default hat position"
 		"es"	"Editar posicion de hat por defecto"
+		"zho"	"編輯預設裝飾品位置"
 	}
 	"Edit hat positions for this model"
 	{
 		"en"	"Edit hat positions for this model"
 		"es"	"Editar posicion de hat para este modelo"
+		"zho"	"編輯這個人物模組的裝飾品位置"
 	}
 }
