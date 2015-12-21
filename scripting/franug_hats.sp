@@ -569,6 +569,7 @@ stock void SetThirdPersonView(int client, bool third)
 		SetEntProp(client, Prop_Send, "m_bDrawViewmodel", 0);
 		SetEntProp(client, Prop_Send, "m_iFOV", 120);
 		SendConVarValue(client, mp_forcecamera, "1");
+		SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 0.0);
     }
     else
     {
@@ -579,6 +580,7 @@ stock void SetThirdPersonView(int client, bool third)
 		char valor[6];
 		GetConVarString(mp_forcecamera, valor, 6);
 		SendConVarValue(client, mp_forcecamera, valor);
+		SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 1.0);
     }
 }  
 
