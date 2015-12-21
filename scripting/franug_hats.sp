@@ -50,7 +50,7 @@ Handle timers[MAXPLAYERS+1];
 // ConVar Values
 bool g_bThirdPerson;
 
-#define DATA "3.0"
+#define DATA "3.1"
 
 public Plugin myinfo = 
 {
