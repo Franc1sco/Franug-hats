@@ -557,12 +557,13 @@ public void RemoveHat(int client)
 
 stock void SetThirdPersonView(int client, bool third)
 {
-    if(third)
+	if (!g_bThirdPerson || !IsPlayerAlive(client))
+	{
+		return;
+	}
+		
+	if(third)
     {
-		if (!g_bThirdPerson)
-		{
-			return;
-		}
 		
 		SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", 0); 
 		SetEntProp(client, Prop_Send, "m_iObserverMode", 1);
@@ -570,9 +571,9 @@ stock void SetThirdPersonView(int client, bool third)
 		SetEntProp(client, Prop_Send, "m_iFOV", 120);
 		SendConVarValue(client, mp_forcecamera, "1");
 		SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 0.0);
-    }
-    else
-    {
+	}
+	else
+	{
 		SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", -1);
 		SetEntProp(client, Prop_Send, "m_iObserverMode", 0);
 		SetEntProp(client, Prop_Send, "m_bDrawViewmodel", 1);
@@ -581,7 +582,7 @@ stock void SetThirdPersonView(int client, bool third)
 		GetConVarString(mp_forcecamera, valor, 6);
 		SendConVarValue(client, mp_forcecamera, valor);
 		SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 1.0);
-    }
+	}
 }  
 
 public Action DOMenu(int client,int args)
