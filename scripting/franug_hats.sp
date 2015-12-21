@@ -20,9 +20,18 @@ enum Hat
 	String:flag[8]
 }
 
+enum Hat2
+{
+	String:Name[64],
+	String:szAttachment[64],
+	Float:fPosition[3],
+	Float:fAngles[3]
+}
+
 bool viendo[MAXPLAYERS+1];
 
 int g_eHats[1024][Hat], g_Elegido[MAXPLAYERS + 1], g_hats, g_Hat[MAXPLAYERS+1];
+Handle g_mHats[1024];
 
 //new Handle:g_hLookupAttachment = INVALID_HANDLE;
 
@@ -173,7 +182,7 @@ public Action Command_Hats(int client, int args)
 public Action Reload(int client,int args)
 {	
 	LoadHats();
-	CPrintToChat(client, " {darkred}[f-Hats] %t", "ConfigReloaded");
+	CPrintToChat(client, " {darkred}[f-Hats] %T", client,"ConfigReloaded");
 	return Plugin_Handled;
 }
 
@@ -196,13 +205,13 @@ public int DIDMenuHandler(Menu menu, MenuAction action,int client,int itemNum)
 		int index = StringToInt(info);
 		if(!HasPermission(client, g_eHats[index][flag]))
 		{
-			CPrintToChat(client, " {darkred}[f-Hats] %t", "NoAccess");
+			CPrintToChat(client, " {darkred}[f-Hats] %T", client, "NoAccess");
 			Showmenuh(client, GetMenuSelectionPosition());
 			return;
 		}
 		RemoveHat(client);
 		g_Elegido[client] = index;
-		CPrintToChat(client, " {darkred}[f-Hats] %t", "Chosen", g_eHats[g_Elegido[client]][Name]);
+		CPrintToChat(client, " {darkred}[f-Hats] %T", "Chosen", client, g_eHats[g_Elegido[client]][Name]);
 		CreateHat(client);
 		Showmenuh(client, GetMenuSelectionPosition());
 	}
@@ -219,6 +228,14 @@ public int DIDMenuHandler(Menu menu, MenuAction action,int client,int itemNum)
 
 public void LoadHats()
 {
+	for (int i=0; i<g_hats; ++i)
+	{
+		if(g_mHats[g_hats] != INVALID_HANDLE)
+		{
+			CloseHandle(g_mHats[g_hats]);
+			g_mHats[g_hats] = INVALID_HANDLE;
+		}
+	}
 	g_hats = 0;
 	BuildPath(Path_SM, sConfig, PLATFORM_MAX_PATH, "configs/franug_hats.txt");
 	
@@ -227,6 +244,7 @@ public void LoadHats()
 	kv = CreateKeyValues("Hats");
 	FileToKeyValues(kv, sConfig);
 
+	int g_array[Hat2];
 	if(KvGotoFirstSubKey(kv))
 	{
 		do
@@ -243,22 +261,29 @@ public void LoadHats()
 			KvGetString(kv, "attachment", g_eHats[g_hats][szAttachment], 64, "facemask");
 			KvGetString(kv, "flag", g_eHats[g_hats][flag], 8, "");
 			
-			
-			if(!StrEqual(g_eHats[g_hats][szModel], "none") && strcmp(g_eHats[g_hats][szModel], "")!=0)
+			if(KvJumpToKey(kv, "playermodels"))
 			{
+				g_mHats[g_hats] = CreateArray();
 				
-				if(FileExists(g_eHats[g_hats][szModel]))
+				if(KvGotoFirstSubKey(kv))
 				{
-					PrecacheModel(g_eHats[g_hats][szModel], true);
-					Downloader_AddFileToDownloadsTable(g_eHats[g_hats][szModel]);
-				}
-				else FileExists(g_eHats[g_hats][szModel], true)
-				{
-					PrecacheModel(g_eHats[g_hats][szModel], true);
-				}
+					do
+					{
+						KvGetSectionName(kv, g_array[Name], 64);
+						
+						KvGetVector(kv, "position", m_fTemp);
+						g_array[fPosition] = m_fTemp;
+						KvGetVector(kv, "angles", m_fTemp);
+						g_array[fAngles] = m_fTemp;
+						KvGetString(kv, "attachment", g_array[szAttachment], 64, "facemask");
+						
+						PushArrayArray(g_mHats[g_hats], g_array[0]);
 				
+				
+					}while (KvGotoNextKey(kv));
+				}
+				KvGoBack(kv);
 			}
-			
 			++g_hats;
 		} while (KvGotoNextKey(kv));
 	}
@@ -340,18 +365,53 @@ void CreateHat(int client)
 	// CreateHats code taken from https://forums.alliedmods.net/showthread.php?t=208125
 	
 	// Calculate the final position and angles for the hat
-	float m_fHatOrigin[3], m_fHatAngles[3], m_fForward[3], m_fRight[3], m_fUp[3];
+	float m_fHatOrigin[3], m_fHatAngles[3], m_fForward[3], m_fRight[3], m_fUp[3], m_fOffset[3];
+
 	GetClientAbsOrigin(client,m_fHatOrigin);
 	GetClientAbsAngles(client,m_fHatAngles);
 	
-	m_fHatAngles[0] += g_eHats[g_Elegido[client]][fAngles][0];
-	m_fHatAngles[1] += g_eHats[g_Elegido[client]][fAngles][1];
-	m_fHatAngles[2] += g_eHats[g_Elegido[client]][fAngles][2];
+	bool found = false;
+	int Items[Hat2];
+	if(g_mHats[g_hats] != INVALID_HANDLE)
+	{
+		
+		char buscado[64];
+		GetClientModel(client, buscado, 64);
+		
+		
+		for(int i=0;i<GetArraySize(g_mHats[g_hats]);++i)
+		{
+			GetArrayArray(g_mHats[g_hats], i, Items[0]);
+			if(StrEqual(Items[Name], buscado))
+			{
+				m_fHatAngles[0] += Items[fAngles][0];
+				m_fHatAngles[1] += Items[fAngles][1];
+				m_fHatAngles[2] += Items[fAngles][2];
 
-	float m_fOffset[3];
-	m_fOffset[0] = g_eHats[g_Elegido[client]][fPosition][0];
-	m_fOffset[1] = g_eHats[g_Elegido[client]][fPosition][1];
-	m_fOffset[2] = g_eHats[g_Elegido[client]][fPosition][2];
+	
+				m_fOffset[0] = Items[fPosition][0];
+				m_fOffset[1] = Items[fPosition][1];
+				m_fOffset[2] = Items[fPosition][2];
+				found = true;
+				
+				break;
+			}
+		}
+	
+	}
+	
+	if(!found)
+	{
+		m_fHatAngles[0] += g_eHats[g_Elegido[client]][fAngles][0];
+		m_fHatAngles[1] += g_eHats[g_Elegido[client]][fAngles][1];
+		m_fHatAngles[2] += g_eHats[g_Elegido[client]][fAngles][2];
+
+	
+		m_fOffset[0] = g_eHats[g_Elegido[client]][fPosition][0];
+		m_fOffset[1] = g_eHats[g_Elegido[client]][fPosition][1];
+		m_fOffset[2] = g_eHats[g_Elegido[client]][fPosition][2];
+	}
+	
 
 	GetAngleVectors(m_fHatAngles, m_fForward, m_fRight, m_fUp);
 
@@ -383,7 +443,8 @@ void CreateHat(int client)
 	SetVariantString("!activator");
 	AcceptEntityInput(m_iEnt, "SetParent", client, m_iEnt, 0);
 
-	SetVariantString(g_eHats[g_Elegido[client]][szAttachment]);
+	if(!found) SetVariantString(g_eHats[g_Elegido[client]][szAttachment]);
+	else SetVariantString(Items[szAttachment]);
 /* 	if(!second) SetVariantString(g_eHats[g_Elegido[client]][szAttachment]);
 	else SetVariantString("forward"); */
 	AcceptEntityInput(m_iEnt, "SetParentAttachmentMaintainOffset", m_iEnt, m_iEnt, 0);	
@@ -503,7 +564,7 @@ stock void SetThirdPersonView(int client, bool third)
 public Action DOMenu(int client,int args)
 {
 	if(!StrEqual(g_eHats[g_Elegido[client]][szModel], "none")) ShowMenu(client, 0);
-	else CPrintToChat(client, " {darkred}[f-Hats] %t", "FirstChoose");
+	else CPrintToChat(client, " {darkred}[f-Hats] %T", client,"FirstChoose");
 	
 	return Plugin_Handled;
 }
@@ -593,7 +654,7 @@ public int DIDMenuHandler2(Menu menu, MenuAction action, int client, int itemNum
 			KvRewind(kv);
 			KeyValuesToFile(kv, sConfig);
 			
-			CPrintToChat(client, " {darkred}[f-Hats] %t", "ConfigSaved");
+			CPrintToChat(client, " {darkred}[f-Hats] %T", client,"ConfigSaved");
 		}
 		ShowMenu(client, GetMenuSelectionPosition());
 	}
