@@ -40,7 +40,7 @@ char sConfig[PLATFORM_MAX_PATH];
 
 Handle c_GameSprays, kv, hSetModel, mp_forcecamera; 
 
-Menu menu_hats, menu_editor;
+Menu menu_hats, menu_editor, menu_editor2;
 
 // ConVars
 Handle g_hThirdPerson = INVALID_HANDLE;
@@ -320,6 +320,26 @@ public void LoadHats()
 	AddMenuItem(menu_editor, "save", "Save");
 	
 	SetMenuExitButton(menu_editor, true);
+	
+	menu_editor2 = new Menu(DIDMenuHandler3);
+	SetMenuTitle(menu_editor2, "Hats Editor");
+	
+	AddMenuItem(menu_editor2, "Position X+0.5", "Position X + 0.5");
+	AddMenuItem(menu_editor2, "Position X-0.5", "Position X - 0.5");
+	AddMenuItem(menu_editor2, "Position Y+0.5", "Position Y + 0.5");
+	AddMenuItem(menu_editor2, "Position Y-0.5", "Position Y - 0.5");
+	AddMenuItem(menu_editor2, "Position Z+0.5", "Position Z + 0.5");
+	AddMenuItem(menu_editor2, "Position Z-0.5", "Position Z - 0.5");
+	AddMenuItem(menu_editor2, "Angle X+0.5", "Angle X + 0.5");
+	AddMenuItem(menu_editor2, "Angle X-0.5", "Angle X - 0.5");
+	AddMenuItem(menu_editor2, "Angle Y+0.5", "Angle Y + 0.5");
+	AddMenuItem(menu_editor2, "Angle Y-0.5", "Angle Y - 0.5");
+	AddMenuItem(menu_editor2, "Angle Z+0.5", "Angle Z + 0.5");
+	AddMenuItem(menu_editor2, "Angle Z-0.5", "Angle Z - 0.5");
+	AddMenuItem(menu_editor2, "save", "Save");
+	
+	SetMenuExitButton(menu_editor2, true);
+	
 }
 
 /* stock LookupAttachment(client, String:point[])
@@ -563,16 +583,59 @@ stock void SetThirdPersonView(int client, bool third)
 
 public Action DOMenu(int client,int args)
 {
+	if(StrEqual(g_eHats[g_Elegido[client]][szModel], "none"))
+	{
+		CPrintToChat(client, " {darkred}[f-Hats] %T", client,"FirstChoose");
+		return Plugin_Handled;
+	}
+	
+	Menu menu_editor_init = new Menu(DIDMenuHandler_init);
+	char itemmenu[64];
+	SetMenuTitle(menu_editor_init, "%T", "EditorMenu", client);
+	
+	Format(itemmenu, 64, "%T", client, "Edit default hat position");
+	AddMenuItem(menu_editor_init, "default", itemmenu);
+	Format(itemmenu, 64, "%T", client, "Edit hat positions for this model");
+	AddMenuItem(menu_editor_init, "model", "Position X - 0.5");
+	
+	SetMenuExitButton(menu_editor_init, true);
 	if(!StrEqual(g_eHats[g_Elegido[client]][szModel], "none")) ShowMenu(client, 0);
 	else CPrintToChat(client, " {darkred}[f-Hats] %T", client,"FirstChoose");
 	
 	return Plugin_Handled;
 }
 
+public int DIDMenuHandler_init(Menu menu, MenuAction action, int client, int itemNum) 
+{
+	if ( action == MenuAction_Select ) 
+	{
+		char info[32];
+		
+		GetMenuItem(menu, itemNum, info, sizeof(info));
+
+		if ( strcmp(info,"default") == 0 ) ShowMenu(client, 0);
+		else if ( strcmp(info,"model") == 0 ) ShowMenu2(client, 0);
+		
+	}
+	else if (action == MenuAction_End)
+	{
+		CloseHandle(menu);
+	}
+}
+
 void ShowMenu(int client, int item)
 {
 	SetMenuTitle(menu_editor, "%T", "EditorMenu", client);
 	DisplayMenuAtItem(menu_editor, client, item, 0);
+	
+	viendo[client] = true;
+	SetThirdPersonView(client, true);
+}
+
+void ShowMenu2(int client, int item)
+{
+	SetMenuTitle(menu_editor2, "%T", "EditorMenu", client);
+	DisplayMenuAtItem(menu_editor2, client, item, 0);
 	
 	viendo[client] = true;
 	SetThirdPersonView(client, true);
@@ -657,6 +720,275 @@ public int DIDMenuHandler2(Menu menu, MenuAction action, int client, int itemNum
 			CPrintToChat(client, " {darkred}[f-Hats] %T", client,"ConfigSaved");
 		}
 		ShowMenu(client, GetMenuSelectionPosition());
+	}
+	else if (action == MenuAction_Cancel) 
+	{ 
+		if(IsClientInGame(client) && viendo[client])
+		{
+			viendo[client] = false;
+			SetThirdPersonView(client, false);
+		}
+		//PrintToServer("Client %d's menu was cancelled.  Reason: %d", client, itemNum); 
+	} 
+}
+
+public int DIDMenuHandler3(Menu menu, MenuAction action, int client, int itemNum) 
+{
+	if ( action == MenuAction_Select ) 
+	{
+		char info[32];
+		
+		GetMenuItem(menu, itemNum, info, sizeof(info));
+		int numero;
+		float posicion;
+		if (StrContains(info, "Position", false) != -1)
+		{
+			ReplaceString(info, 32, "Position", "", false);
+			if (StrContains(info, "X", false) != -1)
+			{
+				numero = 0;
+				ReplaceString(info, 32, "X", "", false);
+			}
+			else if (StrContains(info, "Y", false) != -1)
+			{
+				numero = 1;
+				ReplaceString(info, 32, "Y", "", false);
+			}
+			else if (StrContains(info, "Z", false) != -1)
+			{
+				numero = 2;
+				ReplaceString(info, 32, "Z", "", false);
+			}
+			
+			posicion = StringToFloat(info);
+			
+			int Items[Hat2];
+			char buscado[64];
+			
+			GetClientModel(client, Items[Name], 64);
+			bool found = false;
+			int index;
+			if(g_mHats[g_Elegido[client]] == INVALID_HANDLE) 
+			{
+				g_mHats[g_Elegido[client]] = CreateArray();
+				
+				Items[fPosition] = g_eHats[g_Elegido[client]][fPosition];
+				Items[fAngles] = g_eHats[g_Elegido[client]][fAngles];
+				Format(Items[szAttachment], 64, "facemask");
+				Format(Items[Name], 64, buscado);
+				
+				index = PushArrayArray(g_mHats[g_Elegido[client]], Items[0]);
+				found = true;
+				
+			}		
+		
+			if(!found)
+			{
+				for(int i=0;i<GetArraySize(g_mHats[g_Elegido[client]]);++i)
+				{
+					GetArrayArray(g_mHats[g_Elegido[client]], i, Items[0]);
+					if(StrEqual(Items[Name], buscado))
+					{
+						found = true;
+						index = i;
+						break;
+					}
+				}
+			}
+			
+			if(!found)
+			{
+				Items[fPosition] = g_eHats[g_Elegido[client]][fPosition];
+				Items[fPosition][numero] += posicion;
+				Items[fAngles] = g_eHats[g_Elegido[client]][fAngles];
+				Format(Items[szAttachment], 64, "facemask");
+				Format(Items[Name], 64, buscado);
+				
+				PushArrayArray(g_mHats[g_Elegido[client]], Items[0]);
+			}
+			else
+			{
+				Items[fPosition][numero] += posicion;
+				SetArrayArray(g_mHats[g_Elegido[client]], index, Items[0]);
+			}
+			
+			
+			RemoveHat(client);
+			CreateHat(client);
+			
+		}
+		else if (StrContains(info, "Angle", false) != -1)
+		{
+			ReplaceString(info, 32, "Angle", "", false);
+			if (StrContains(info, "X", false) != -1)
+			{
+				numero = 0;
+				ReplaceString(info, 32, "X", "", false);
+			}
+			else if (StrContains(info, "Y", false) != -1)
+			{
+				numero = 1;
+				ReplaceString(info, 32, "Y", "", false);
+			}
+			else if (StrContains(info, "Z", false) != -1)
+			{
+				numero = 2;
+				ReplaceString(info, 32, "Z", "", false);
+			}
+			
+			posicion = StringToFloat(info);
+			
+			int Items[Hat2];
+			char buscado[64];
+			
+			GetClientModel(client, Items[Name], 64);
+			bool found = false;
+			int index;
+			if(g_mHats[g_Elegido[client]] == INVALID_HANDLE) 
+			{
+				g_mHats[g_Elegido[client]] = CreateArray();
+				
+				Items[fPosition] = g_eHats[g_Elegido[client]][fPosition];
+				Items[fAngles] = g_eHats[g_Elegido[client]][fAngles];
+				Format(Items[szAttachment], 64, "facemask");
+				Format(Items[Name], 64, buscado);
+				
+				index = PushArrayArray(g_mHats[g_Elegido[client]], Items[0]);
+				found = true;
+				
+			}		
+		
+			if(!found)
+			{
+				for(int i=0;i<GetArraySize(g_mHats[g_Elegido[client]]);++i)
+				{
+					GetArrayArray(g_mHats[g_Elegido[client]], i, Items[0]);
+					if(StrEqual(Items[Name], buscado))
+					{
+						found = true;
+						index = i;
+						break;
+					}
+				}
+			}
+			
+			if(!found)
+			{
+				Items[fPosition] = g_eHats[g_Elegido[client]][fPosition];
+				Items[fAngles] = g_eHats[g_Elegido[client]][fAngles];
+				Items[fAngles][numero] += posicion;
+				Format(Items[szAttachment], 64, "facemask");
+				Format(Items[Name], 64, buscado);
+			
+				PushArrayArray(g_mHats[g_Elegido[client]], Items[0]);
+			}
+			else
+			{
+				Items[fAngles][numero] += posicion;
+				SetArrayArray(g_mHats[g_Elegido[client]], index, Items[0]);
+			}
+			RemoveHat(client);
+			CreateHat(client);
+			
+		}
+		else if (StrContains(info, "Save", false) != -1)
+		{
+			int Items[Hat2];
+			char buscado[64];
+			float m_fTemp[3];
+			GetClientModel(client, Items[Name], 64);
+			bool found = false;
+			if(g_mHats[g_Elegido[client]] == INVALID_HANDLE) 
+			{
+				
+				g_mHats[g_Elegido[client]] = CreateArray();
+				KvJumpToKey(kv, "playermodels", true);
+				KvJumpToKey(kv, Items[Name], true);
+							
+				m_fTemp[0] = g_eHats[g_Elegido[client]][fPosition][0];
+				m_fTemp[1] = g_eHats[g_Elegido[client]][fPosition][1];
+				m_fTemp[2] = g_eHats[g_Elegido[client]][fPosition][2];
+				KvSetVector(kv, "position", m_fTemp);
+				m_fTemp[0] = g_eHats[g_Elegido[client]][fAngles][0];
+				m_fTemp[1] = g_eHats[g_Elegido[client]][fAngles][1];
+				m_fTemp[2] = g_eHats[g_Elegido[client]][fAngles][2];
+				KvSetVector(kv, "angles", m_fTemp);
+				KvSetString(kv, "attachment", "facemask");
+				Items[fPosition] = g_eHats[g_Elegido[client]][fPosition];
+				Items[fAngles] = g_eHats[g_Elegido[client]][fAngles];
+				Format(Items[szAttachment], 64, "facemask");
+				Format(Items[Name], 64, buscado);
+				
+				PushArrayArray(g_mHats[g_Elegido[client]], Items[0]);
+				found = true;
+				KvRewind(kv);
+				KeyValuesToFile(kv, sConfig);
+				
+				CPrintToChat(client, " {darkred}[f-Hats] %T", client,"ConfigSaved");
+				
+				ShowMenu2(client, GetMenuSelectionPosition());
+				return;
+				
+			}		
+		
+			if(!found)
+			{
+				for(int i=0;i<GetArraySize(g_mHats[g_Elegido[client]]);++i)
+				{
+					GetArrayArray(g_mHats[g_Elegido[client]], i, Items[0]);
+					if(StrEqual(Items[Name], buscado))
+					{
+						found = true;
+						break;
+					}
+				}
+			}
+			
+			if(!found)
+			{
+				KvJumpToKey(kv, "playermodels", true);
+				KvJumpToKey(kv, Items[Name], true);
+				
+				m_fTemp[0] = g_eHats[g_Elegido[client]][fPosition][0];
+				m_fTemp[1] = g_eHats[g_Elegido[client]][fPosition][1];
+				m_fTemp[2] = g_eHats[g_Elegido[client]][fPosition][2];
+				KvSetVector(kv, "position", m_fTemp);
+				m_fTemp[0] = g_eHats[g_Elegido[client]][fAngles][0];
+				m_fTemp[1] = g_eHats[g_Elegido[client]][fAngles][1];
+				m_fTemp[2] = g_eHats[g_Elegido[client]][fAngles][2];
+				KvSetVector(kv, "angles", m_fTemp);
+				KvSetString(kv, "attachment", "facemask");
+				Items[fPosition] = g_eHats[g_Elegido[client]][fPosition];
+				Items[fAngles] = g_eHats[g_Elegido[client]][fAngles];
+				Format(Items[szAttachment], 64, "facemask");
+				Format(Items[Name], 64, buscado);
+				
+				PushArrayArray(g_mHats[g_Elegido[client]], Items[0]);
+				KvRewind(kv);
+				KeyValuesToFile(kv, sConfig);
+			}
+			else
+			{
+				KvJumpToKey(kv, "playermodels", true);
+				KvJumpToKey(kv, Items[Name], true);
+				
+				m_fTemp[0] = Items[fPosition][0];
+				m_fTemp[1] = Items[fPosition][1];
+				m_fTemp[2] = Items[fPosition][2];
+				KvSetVector(kv, "position", m_fTemp);
+				m_fTemp[0] = Items[fAngles][0];
+				m_fTemp[1] = Items[fAngles][1];
+				m_fTemp[2] = Items[fAngles][2];
+				KvSetVector(kv, "angles", m_fTemp);
+				KvSetString(kv, "attachment", Items[szAttachment]);
+				KvRewind(kv);
+				KeyValuesToFile(kv, sConfig);
+			}
+			
+			
+			CPrintToChat(client, " {darkred}[f-Hats] %T", client,"ConfigSaved");
+		}
+		ShowMenu2(client, GetMenuSelectionPosition());
 	}
 	else if (action == MenuAction_Cancel) 
 	{ 

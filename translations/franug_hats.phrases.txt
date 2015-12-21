@@ -57,4 +57,14 @@
 		"tr" 	"Şapka editörü"
 		"pl"	"Edytor akcesorii"
 	}
+	"Edit default hat position"
+	{
+		"en"	"Edit default hat position"
+		"es"	"Editar posicion de hat por defecto"
+	}
+	"Edit hat positions for this model"
+	{
+		"en"	"Edit hat positions for this model"
+		"es"	"Editar posicion de hat para este modelo"
+	}
 }
