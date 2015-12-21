@@ -561,9 +561,9 @@ stock void SetThirdPersonView(int client, bool third)
 	{
 		return;
 	}
-		
+	
 	if(third)
-    {
+	{
 		
 		SetEntPropEnt(client, Prop_Send, "m_hObserverTarget", 0); 
 		SetEntProp(client, Prop_Send, "m_iObserverMode", 1);
