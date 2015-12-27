@@ -53,7 +53,7 @@ Handle timers[MAXPLAYERS+1];
 // ConVar Values
 bool g_bThirdPerson;
 
-#define DATA "3.2"
+#define DATA "3.3"
 
 public Plugin myinfo = 
 {
@@ -273,7 +273,7 @@ public void LoadHats()
 					do
 					{
 						KvGetSectionName(kv, g_array[Name], 64);
-						
+						ReplaceString(g_array[Name], 64, "&", "/");
 						KvGetVector(kv, "position", m_fTemp);
 						g_array[fPosition] = m_fTemp;
 						KvGetVector(kv, "angles", m_fTemp);
@@ -924,8 +924,8 @@ public int DIDMenuHandler3(Menu menu, MenuAction action, int client, int itemNum
 				Format(temp, 64, buscado);
 				ReplaceString(temp, 64, "/","&");
 				KvJumpToKey(kv, temp, true);
-				ReplaceString(temp, 64, "&","/");
-				KvSetSectionName(kv, temp);
+				//ReplaceString(temp, 64, "&","/");
+				//KvSetSectionName(kv, temp);
 				
 							
 				m_fTemp[0] = g_eHats[g_Elegido[client]][fPosition][0];
@@ -975,8 +975,8 @@ public int DIDMenuHandler3(Menu menu, MenuAction action, int client, int itemNum
 				Format(temp, 64, buscado);
 				ReplaceString(temp, 64, "/","&");
 				KvJumpToKey(kv, temp, true);
-				ReplaceString(temp, 64, "&","/");
-				KvSetSectionName(kv, temp);
+				//ReplaceString(temp, 64, "&","/");
+				//KvSetSectionName(kv, temp);
 				
 				m_fTemp[0] = g_eHats[g_Elegido[client]][fPosition][0];
 				m_fTemp[1] = g_eHats[g_Elegido[client]][fPosition][1];
@@ -1000,14 +1000,12 @@ public int DIDMenuHandler3(Menu menu, MenuAction action, int client, int itemNum
 				KvJumpToKey(kv, g_eHats[g_Elegido[client]][Name]);
 				KvJumpToKey(kv, "playermodels", true);
 				//KvGotoFirstSubKey(kv);
-				
-				if(!Foundable(buscado))
+				ReplaceString(buscado, 64, "/","&");
+				if(!KvJumpToKey(kv, buscado))
 				{
-					Format(temp, 64, buscado);
-					ReplaceString(temp, 64, "/","&");
-					KvJumpToKey(kv, temp, true);
-					ReplaceString(temp, 64, "&","/");
-					KvSetSectionName(kv, temp);
+					KvJumpToKey(kv, buscado, true);
+					//ReplaceString(temp, 64, "&","/");
+					//KvSetSectionName(kv, temp);
 					
 					//PrintToChatAll("no existe");
 				}
@@ -1079,24 +1077,3 @@ stock bool HasPermission(int iClient, char[] flagString)
 
 	return false;
 } 
-
-bool Foundable(char[] model)
-{
-	char temp[64];
-	if(KvGotoFirstSubKey(kv))
-	{
-		do
-		{
-			KvGetSectionName(kv, temp, 64);
-			//PrintToChatAll("nombre %s", temp);
-			if(StrEqual(temp, model))
-			{
-				return true;
-			}
-				
-		}while (KvGotoNextKey(kv));
-	}
-	KvGoBack(kv);
-	
-	return false;
-}

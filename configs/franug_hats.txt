@@ -1,137 +1,145 @@
 "Hats"
 {
-	"None"
+	"none"
 	{
-		"model"	"none"
+		"model"		"none"
 	}
 	"Porcelain Doll"
 	{
-		"model"	"models/player/holiday/facemasks/porcelain_doll.mdl"
+		"model"		"models/player/holiday/facemasks/porcelain_doll.mdl"
 	}
 	"Zombie Fortune"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_zombie_fortune_plastic.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_zombie_fortune_plastic.mdl"
 	}
 	"Wolf"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_wolf.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_wolf.mdl"
 	}
 	"Tiki"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_tiki.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_tiki.mdl"
 	}
 	"Spy"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_tf2_spy_model.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_tf2_spy_model.mdl"
 	}
 	"Soldier"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_tf2_soldier_model.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_tf2_soldier_model.mdl"
 	}
 	"Sniper"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_tf2_sniper_model.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_tf2_sniper_model.mdl"
 	}
 	"Scout"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_tf2_scout_model.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_tf2_scout_model.mdl"
 	}
 	"Pyro"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_tf2_pyro_model.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_tf2_pyro_model.mdl"
 	}
 	"Medic"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_tf2_medic_model.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_tf2_medic_model.mdl"
 	}
 	"Heavy"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_tf2_heavy_model.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_tf2_heavy_model.mdl"
 	}
 	"Engineer"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_tf2_engi_model.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_tf2_engi_model.mdl"
 	}
 	"Demoman"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_tf2_demo_model.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_tf2_demo_model.mdl"
 	}
 	"Skull"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_skull.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_skull.mdl"
 	}
 	"Skull (Gold)"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_skull_gold.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_skull_gold.mdl"
 	}
 	"Sheep"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_sheep_model.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_sheep_model.mdl"
 	}
 	"Sheep (Gold)"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_sheep_gold.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_sheep_gold.mdl"
 	}
 	"Sheep (Bloody)"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_sheep_bloody.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_sheep_bloody.mdl"
 	}
 	"Samurai"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_samurai.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_samurai.mdl"
 	}
 	"Pumpkin"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_pumpkin.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_pumpkin.mdl"
 	}
 	"Porcelain Doll Kabuki"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_porcelain_doll_kabuki.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_porcelain_doll_kabuki.mdl"
 	}
 	"Hoxton"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_hoxton.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_hoxton.mdl"
 	}
 	"Devil"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_devil_plastic.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_devil_plastic.mdl"
 	}
 	"Dallas"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_dallas.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_dallas.mdl"
 	}
 	"Chicken"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_chicken.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_chicken.mdl"
 	}
 	"Chains"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_chains.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_chains.mdl"
 	}
 	"Bunny"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_bunny.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_bunny.mdl"
 	}
 	"Bunny (Gold)"
 	{
-		"model" "models/player/holiday/facemasks/facemask_bunny_gold.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_bunny_gold.mdl"
 	}
 	"Boar"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_boar.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_boar.mdl"
 	}
 	"Anaglyph"
 	{
-		"model"	"models/player/holiday/facemasks/facemask_anaglyph.mdl"
+		"model"		"models/player/holiday/facemasks/facemask_anaglyph.mdl"
 	}
 	"Evil Clown"
 	{
-		"model"	"models/player/holiday/facemasks/evil_clown.mdl"
+		"model"		"models/player/holiday/facemasks/evil_clown.mdl"
 	}
-	"Santa hat"
+	"Santa Hat"
 	{
-		"model"	"models/player/holiday/santahat.mdl"
+		"model"		"models/player/holiday/santahat.mdl"
 		"position"		"-0.500000 -2.000000 5.000000"
 		"angles"		"0.000000 -0.500000 0.000000"
+		"playermodels"
+		{
+			"models&player&custom_player&legacy&tm_leet_variantA.mdl"
+			{
+				"position"		"-2.500000 -6.000000 -0.500000"
+				"angles"		"1.000000 18.500000 15.000000"
+			}
+		}
 	}
 }
