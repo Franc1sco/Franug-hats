@@ -8,6 +8,9 @@
 
 #pragma newdecls required // let's go new syntax! 
 
+#define HIDE_CROSSHAIR_CSGO 1<<8
+#define HIDE_RADAR_CSGO 1<<12
+
 enum Hat
 {
 	String:Name[64],
@@ -50,7 +53,7 @@ Handle timers[MAXPLAYERS+1];
 // ConVar Values
 bool g_bThirdPerson;
 
-#define DATA "3.1"
+#define DATA "3.2"
 
 public Plugin myinfo = 
 {
@@ -571,6 +574,9 @@ stock void SetThirdPersonView(int client, bool third)
 		SetEntProp(client, Prop_Send, "m_iFOV", 120);
 		SendConVarValue(client, mp_forcecamera, "1");
 		SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 0.0);
+		
+		SetEntProp(client, Prop_Send, "m_iHideHUD", GetEntProp(client, Prop_Send, "m_iHideHUD") | HIDE_RADAR_CSGO);
+		SetEntProp(client, Prop_Send, "m_iHideHUD", GetEntProp(client, Prop_Send, "m_iHideHUD") | HIDE_CROSSHAIR_CSGO);
 	}
 	else
 	{
@@ -582,6 +588,9 @@ stock void SetThirdPersonView(int client, bool third)
 		GetConVarString(mp_forcecamera, valor, 6);
 		SendConVarValue(client, mp_forcecamera, valor);
 		SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 1.0);
+		
+		SetEntProp(client, Prop_Send, "m_iHideHUD", GetEntProp(client, Prop_Send, "m_iHideHUD") & ~HIDE_RADAR_CSGO);
+		SetEntProp(client, Prop_Send, "m_iHideHUD", GetEntProp(client, Prop_Send, "m_iHideHUD") & ~HIDE_CROSSHAIR_CSGO);
 	}
 }  
 
