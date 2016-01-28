@@ -53,7 +53,7 @@ Handle timers[MAXPLAYERS+1];
 // ConVar Values
 bool g_bThirdPerson;
 
-#define DATA "3.3"
+#define DATA "3.3.1"
 
 public Plugin myinfo = 
 {
@@ -194,8 +194,8 @@ void Showmenuh(int client, int item2)
 	SetMenuTitle(menu_hats, "%T", "HatsMenu", client);
 	DisplayMenuAtItem(menu_hats, client, item2, 0);
 	
-	viendo[client] = true;
-	SetThirdPersonView(client, true);
+	//viendo[client] = true;
+	//SetThirdPersonView(client, true);
 }
 
 public int DIDMenuHandler(Menu menu, MenuAction action,int client,int itemNum) 
@@ -220,11 +220,11 @@ public int DIDMenuHandler(Menu menu, MenuAction action,int client,int itemNum)
 	}
 	else if (action == MenuAction_Cancel) 
 	{ 
-		if(IsClientInGame(client) && viendo[client])
+/* 		if(IsClientInGame(client) && viendo[client])
 		{
 			viendo[client] = false;
 			SetThirdPersonView(client, false);
-		}
+		} */
 		//PrintToServer("Client %d's menu was cancelled.  Reason: %d", client, itemNum); 
 	} 
 }
@@ -573,7 +573,7 @@ stock void SetThirdPersonView(int client, bool third)
 		SetEntProp(client, Prop_Send, "m_bDrawViewmodel", 0);
 		SetEntProp(client, Prop_Send, "m_iFOV", 120);
 		SendConVarValue(client, mp_forcecamera, "1");
-		SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 0.0);
+		//SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 0.0);
 		
 		SetEntProp(client, Prop_Send, "m_iHideHUD", GetEntProp(client, Prop_Send, "m_iHideHUD") | HIDE_RADAR_CSGO);
 		SetEntProp(client, Prop_Send, "m_iHideHUD", GetEntProp(client, Prop_Send, "m_iHideHUD") | HIDE_CROSSHAIR_CSGO);
@@ -587,7 +587,7 @@ stock void SetThirdPersonView(int client, bool third)
 		char valor[6];
 		GetConVarString(mp_forcecamera, valor, 6);
 		SendConVarValue(client, mp_forcecamera, valor);
-		SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 1.0);
+		//SetEntPropFloat(client, Prop_Data, "m_flLaggedMovementValue", 1.0);
 		
 		SetEntProp(client, Prop_Send, "m_iHideHUD", GetEntProp(client, Prop_Send, "m_iHideHUD") & ~HIDE_RADAR_CSGO);
 		SetEntProp(client, Prop_Send, "m_iHideHUD", GetEntProp(client, Prop_Send, "m_iHideHUD") & ~HIDE_CROSSHAIR_CSGO);
