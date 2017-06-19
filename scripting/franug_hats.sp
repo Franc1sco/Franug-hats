@@ -70,7 +70,7 @@ Handle timers[MAXPLAYERS+1];
 // ConVar Values
 bool g_bThirdPerson;
 
-#define DATA "3.3.1"
+#define DATA "3.3.2"
 
 public Plugin myinfo = 
 {
@@ -84,7 +84,7 @@ public Plugin myinfo =
 public void OnPluginStart()
 {
 	mp_forcecamera = FindConVar("mp_forcecamera");
-	CreateConVar("sm_franughats_version", DATA, "", FCVAR_PLUGIN|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY);
+	CreateConVar("sm_franughats_version", DATA, "", FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY);
 	
 	c_GameSprays = RegClientCookie("Hats", "Hats", CookieAccess_Private);
 	RegConsoleCmd("sm_hats", Command_Hats);
@@ -96,6 +96,7 @@ public void OnPluginStart()
 	HookConVarChange(g_hThirdPerson, CVarChanged);
 	
 	HookEvent("player_death", PlayerDeath, EventHookMode_Pre);
+	HookEvent("player_team", PlayerDeath, EventHookMode_Pre);
 	
 	Handle hGameConf;
 	
