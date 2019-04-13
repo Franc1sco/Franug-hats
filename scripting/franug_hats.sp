@@ -1,6 +1,6 @@
 /*  SM Franug Hats
  *
- *  Copyright (C) 2017 Francisco 'Franc1sco' García
+ *  Copyright (C) 2017-2019 Francisco 'Franc1sco' García
  * 
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -70,7 +70,7 @@ Handle timers[MAXPLAYERS+1];
 // ConVar Values
 bool g_bThirdPerson;
 
-#define DATA "3.3.2"
+#define DATA "3.3.3"
 
 public Plugin myinfo = 
 {
@@ -562,6 +562,9 @@ public Action ShouldHide(int ent, int client)
 			return Plugin_Handled;
 		}
 	}
+	
+	if(IsClientSourceTV(client)) return Plugin_Handled; // hide hats in demos
+	
 	return Plugin_Continue;
 }
 
