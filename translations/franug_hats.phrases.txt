@@ -32,7 +32,7 @@
 	{
 		"en"	"{default}Hats configuration reloaded."
 		"es"	"{default}Configuracion de los hats recargada."
-		"ru"	"{default}Конфигурация Шапок обновлена."	
+		"ru"	"{default}Конфигурация шапок обновлена."	
         	"tr"	"{default}Şapka yapılandırması yenilendi."
 		"pl"	"{default}Konfiguracja czapek zaktualizowana."
 		"zho"	"{default}已重新讀取設定."
@@ -50,7 +50,7 @@
 	{
 		"en"	"Choose Hat"
 		"es"	"Selecciona un Hat"
-		"ru"	"Выберите Шапку"
+		"ru"	"Выберите шапку"
         	"tr"	"Şapka seçiniz"
 		"pl"	"Wybierz akcesorium."
 		"zho"	"選擇裝飾品"
@@ -59,7 +59,7 @@
 	{
 		"en"	"Hats Editor"
 		"es"	"Editor de Hats"
-		"ru"	"Редактор Шапок"
+		"ru"	"Редактор шапок"
 		"tr" 	"Şapka editörü"
 		"pl"	"Edytor akcesorii"
 		"zho"	"裝飾品編輯器"
@@ -68,12 +68,14 @@
 	{
 		"en"	"Edit default hat position"
 		"es"	"Editar posicion de hat por defecto"
+		"ru"	"Изменить положения шляпы по умолчанию"
 		"zho"	"編輯預設裝飾品位置"
 	}
 	"Edit hat positions for this model"
 	{
 		"en"	"Edit hat positions for this model"
 		"es"	"Editar posicion de hat para este modelo"
+		"ru"	"Изменить положения шляпы для этой модели"
 		"zho"	"編輯這個人物模組的裝飾品位置"
 	}
 }
